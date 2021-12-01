@@ -93,7 +93,7 @@ int kb_getpress(int flags)
 #endif
 	)
 		return c;
-	if (strchr("\033\b \npq", c))
+	if (strchr("\033\b \npqsr", c))
 		return c;
 	return kb_getpress(flags);
 }
