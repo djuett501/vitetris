@@ -279,6 +279,24 @@ static void print_tetr_stats()
 	refreshwin(WIN_TETROM_STATS);
 }
 
+char tetromtochar(short t){
+	if(t == TETR_I)
+		return 'I';
+	else if(t == TETR_J)
+		return 'J';
+	else if(t == TETR_L)
+		return 'L';
+        else if(t == TETR_O)
+		return 'O';
+        else if(t == TETR_S)
+		return 'S';
+        else if(t == TETR_T)
+		return 'T';
+        else if(t == TETR_Z)
+		return 'Z';
+}
+
+
 void drawgamescreen_1p()
 {
 	drawboard(1);

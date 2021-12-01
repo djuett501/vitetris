@@ -15,6 +15,8 @@ void drawgamescreen_2p();
 void print_game_message(int pl, const char *str, int bold);
 void print_press_key();
 
+char tetromtochar(short t);
+
 /* tetris.h should be included before */
 #ifdef tetris_h
 
