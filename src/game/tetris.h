@@ -61,6 +61,9 @@ struct player {
 	short lines;
 	short mvleft_tm;
 	short mvright_tm;
+	struct tetr store;
+	int storedyet;
+	int used;
 };
 
 /* game modes */
@@ -107,6 +110,10 @@ extern char clearedlines[4];
 
 int randnum(int n);
 void gettetrom(struct tetr *t, int i);
+
+void resettetrom(struct tetr *t);
+
+void swaptetrom(struct player *plr);
 
 int hitbtm(struct tetr *piece, struct player *p);
 void lockpiece(struct player *p);

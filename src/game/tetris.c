@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <stdio.h>
 #include <string.h>
 #include "tetris.h"
 #include "../timer.h"
@@ -51,6 +52,26 @@ void gettetrom(struct tetr *t, int i)
 		return;
 	}
 	t->color = tetrom_colors[i];
+}
+
+void resettetrom(struct tetr*t){
+
+	short b = t->blocks;
+	
+	if(b == TETR_I || b == TETR_I2)
+                gettetrom(t, 0);
+	else if(b == TETR_J || b == TETR_J2 || b == TETR_J3 || b == TETR_J4)
+		gettetrom(t, 1);
+        else if(b == TETR_L || b == TETR_L2 || b == TETR_L3 || b == TETR_L4)
+                gettetrom(t, 2);
+        else if(b == TETR_O)
+                gettetrom(t, 3);
+        else if(b == TETR_S || b == TETR_S2)
+                gettetrom(t, 4);
+        else if(b == TETR_T || b == TETR_T2 || b == TETR_T3 || b == TETR_T4)
+                gettetrom(t, 5);
+        else if(b == TETR_Z || b == TETR_Z2)
+                gettetrom(t, 6);
 }
 
 int hitbtm(struct tetr *p, struct player *plr)
@@ -780,6 +801,7 @@ int startgame_1p()
 	tetr_stats[i] = 1;
 	upd_stat(&player1, 0);
 	while (nextpiece(&next)) {
+		player1.used = 0;
 		spawn_discard_drops(0);
 		t = gettm(0);
 		show_dropmarker(&player1);
@@ -878,4 +900,36 @@ static int processinput(int tm, int flags)
 		}
 	}
 	return 1;
+}
+
+void swaptetrom(struct player *plr){
+	struct tetr new;
+	struct tetr temp;
+	int i = randnum(7);
+	int t;
+        struct tetr *p = &plr->piece;
+
+	if(plr->used != 1){
+		if(plr->storedyet != 1){
+			gettetrom(&new, i);
+			clearblocks(plr, p->blocks, p->x, p->y);
+		
+	                plr->store = plr->piece;
+			plr->piece = new;
+			plr->storedyet = 1;
+			plr->used = 1;
+			resettetrom(&plr->store);
+		}
+		else {
+			clearblocks(plr, p->blocks, p->x, p->y);
+			//swap block////////////
+			temp = plr->store;
+			plr->store = plr->piece;
+			plr->piece = temp;
+			///////////////////////
+			drawpiece(plr, p->blocks, p->x, p->y);
+			plr->used = 1;
+			resettetrom(&plr->store);
+		}
+	}
 }
